@@ -26,10 +26,24 @@
         </ol>
     </section>
 
-    
 
-    <!-- Dropdown section -->
-    <section class="dropdown-section">
+
+    <!-- Overview section -->
+    <section class="Overview-section">
+        <p>Overview section</p>
+        <p>For this section I'm expectring a heat map. It will have each row be a charachter. Each column will be an
+            episode. The color will be based off how much they speak
+            I belive this would cover all the required stuff. Maybe we'd also have descriptions of the characters and
+            episodes in a side bar or something.
+            With the mouse over being specific numbers. We could also use the github coding frequency cjhart as an
+            example.
+        </p>
+        <p>Data we need</p>
+        <ul>
+            <li>Character names</li>
+            <li>Episode names</li>
+            <li>How much each character speaks in each episode</li>
+        </ul>
 
     </section>
 
@@ -37,22 +51,33 @@
     <main>
         <div class="chart-container">
             <div class="chart">
-
+                <p>Lets go with option 2: "ho speaks to each other or appears in scenes together." We are required to
+                    use an encoding designed for network data (such as an arc diagram or a chord diagram).</p>
+                <p>lets just go with the classic Force-Directed Graph, we also need to split this into seasons or episodes dynamically</p>
+                <p>Data we need</p>
+                <ul>
+                    <li>Character names</li>
+                    <li>Who speaks to each other or appears in scenes together</li>
+                </ul>
             </div>
             <div class="chart">
+                <p> This is option 1</p>
+                <p> I recommend us not trying to get fancy with this. Maybe we do 2 bar charts</p>
+                <p>One for the common words each charachter speaks</p>
+                <p>One for the common phrases</p>
+                <p>Data we need</p>
+                <ul>
+                    <li>Character names</li>
+                    <li>Common words each character speaks</li>
+                    <li>Common phrases each character speaks</li>
+                </ul>
 
             </div>
+
         </div>
         <div class="chart-container">
             <div class="chart">
-
-            </div>
-        </div>
-        <div class="chart-container">
-            <div class="chart">
-
-            </div>
-            <div class="chart">
+                <p> This is choose your own adventure so we'll discuss once we have everything else done</p>
 
             </div>
         </div>
@@ -61,7 +86,9 @@
     <!-- Data sources section -->
     <section class="data-sources">
         <h3>Data Sources</h3>
-        <p>Original data: <a href="https://www.reddit.com/r/datasets/comments/b30288/every_line_from_every_episode_of_the_office/">https://www.reddit.com/r/datasets/comments/b30288/every_line_from_every_episode_of_the_office/</a></p>
+        <p>Original data: <a
+                href="https://www.reddit.com/r/datasets/comments/b30288/every_line_from_every_episode_of_the_office/">https://www.reddit.com/r/datasets/comments/b30288/every_line_from_every_episode_of_the_office/</a>
+        </p>
     </section>
 
     <!-- D3 bundle -->
@@ -115,7 +142,9 @@
         box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
     }
 
-    .directions, .data-sources, .dropdown-section {
+    .directions,
+    .data-sources,
+    .Overview-section {
         max-width: 800px;
         margin: 20px auto;
         width: 100%;
@@ -159,6 +188,4 @@
     a:hover {
         text-decoration: underline;
     }
-
-
 </style>
