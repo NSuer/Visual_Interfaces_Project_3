@@ -1,160 +1,77 @@
-let histogram1Data = {};
-let histogram2Data = {};
-let scatterData = {};
-let chloropleth1Data = {};
-let chloropleth2Data = {};
-window.selectedCounties = [];
+let IinesPerEpisodeData = {};
+window.selected = null; // Initialize selected variable
 
-d3.csv('data/MyData.csv')
+let DataName = [
+	'Michael',
+	'Dwight',
+	'Jim',
+	'Pam',
+	'Andy',
+	'Kevin',
+	'Angela',
+	'Oscar',
+	'Erin',
+	'Ryan',
+	'Darryl',
+	'Phyllis',
+	'Kelly',
+	'Jan',
+	'Toby',
+	'Stanley',
+	'Meredith',
+	'Holly',
+	'Nellie',
+	'Creed',
+	'Gabe',
+];
+
+let mainCharacters = [
+	{ name: 'Michael Scott', role: 'Regional Manager', dataName: DataName[0], wikiLink: 'https://en.wikipedia.org/wiki/Michael_Scott_(The_Office)' },
+	{ name: 'Dwight Schrute', role: 'Assistant to the Regional Manager', dataName: DataName[1], wikiLink: 'https://en.wikipedia.org/wiki/Dwight_Schrute' },
+	{ name: 'Jim Halpert', role: 'Salesman', dataName: DataName[2], wikiLink: 'https://en.wikipedia.org/wiki/Jim_Halpert' },
+	{ name: 'Pam Beesly', role: 'Receptionist', dataName: DataName[3], wikiLink: 'https://en.wikipedia.org/wiki/Pam_Beesly' },
+	{ name: 'Andy Bernard', role: 'Salesman', dataName: DataName[4], wikiLink: 'https://en.wikipedia.org/wiki/Andy_Bernard' },
+	{ name: 'Kevin Malone', role: 'Accountant', dataName: DataName[5], wikiLink: 'https://en.wikipedia.org/wiki/Kevin_Malone' },
+	{ name: 'Angela Martin', role: 'Accountant', dataName: DataName[6], wikiLink: 'https://en.wikipedia.org/wiki/Angela_Martin' },
+	{ name: 'Oscar Martinez', role: 'Accountant', dataName: DataName[7], wikiLink: 'https://en.wikipedia.org/wiki/Oscar_Martinez_(The_Office)' },
+	{ name: 'Erin Hannon', role: 'Receptionist', dataName: DataName[8], wikiLink: 'https://en.wikipedia.org/wiki/Erin_Hannon' },
+	{ name: 'Ryan Howard', role: 'Temp', dataName: DataName[9], wikiLink: 'https://en.wikipedia.org/wiki/Ryan_Howard_(The_Office)' },
+	{ name: 'Darryl Philbin', role: 'Warehouse Foreman', dataName: DataName[10], wikiLink: 'https://en.wikipedia.org/wiki/Darryl_Philbin' },
+	{ name: 'Phyllis Vance', role: 'Saleswoman', dataName: DataName[11], wikiLink: 'https://en.wikipedia.org/wiki/Phyllis_Vance' },
+	{ name: 'Kelly Kapoor', role: 'Customer Service Representative', dataName: DataName[12], wikiLink: 'https://en.wikipedia.org/wiki/Kelly_Kapoor' },
+	{ name: 'Jan Levinson', role: 'Corporate Executive', dataName: DataName[13], wikiLink: 'https://en.wikipedia.org/wiki/Jan_Levinson' },
+	{ name: 'Toby Flenderson', role: 'HR Representative', dataName: DataName[14], wikiLink: 'https://en.wikipedia.org/wiki/Toby_Flenderson' },
+	{ name: 'Stanley Hudson', role: 'Salesman', dataName: DataName[15], wikiLink: 'https://en.wikipedia.org/wiki/Stanley_Hudson' },
+	{ name: 'Meredith Palmer', role: 'Supplier Relations', dataName: DataName[16], wikiLink: 'https://en.wikipedia.org/wiki/Meredith_Palmer' },
+	{ name: 'Holly Flax', role: 'HR Representative', dataName: DataName[17], wikiLink: 'https://en.wikipedia.org/wiki/Holly_Flax' },
+	{ name: 'Nellie Bertram', role: 'Special Projects Manager', dataName: DataName[18], wikiLink: 'https://en.wikipedia.org/wiki/Nellie_Bertram' },
+	{ name: 'Creed Bratton', role: 'Quality Assurance', dataName: DataName[19], wikiLink: 'https://en.wikipedia.org/wiki/Creed_Bratton_(The_Office)' },
+	{ name: 'Gabe Lewis', role: 'Corporate Liaison', dataName: DataName[20], wikiLink: 'https://en.wikipedia.org/wiki/Gabe_Lewis' },
+];
+
+d3.csv('data/IinesPerEpisode.csv')
 	.then(data => {
-
-		//process the data 
-		// For each column a max should be calculated
-		// using the min and max, each value should be mapped to a value between 0 and 1 in a new column
-
-		// get the columns that include percentages or rates, given by 'pct' or 'rate' either uppercase or lowercase
-		let columns = data.columns.filter(column => column.toLowerCase().includes('pct') || column.toLowerCase().includes('rate') || column.toLowerCase().includes('deep'));
-
-		// remove the columns that are not percentages except for the FIPS, State, and County columns
-		data = data.map(row => {
-			let newRow = {};
-			Object.keys(row).forEach(key => {
-				if (key === 'FIPS' || key === 'State' || key === 'County' || columns.includes(key)) {
-					newRow[key] = row[key];
-				}
-			});
-			return newRow;
-		});
-
-		//cut out the first row and save it as descriptions for the columns
-		let descriptions = data[0];
-
-		data = data.slice(1);
-		data.columns = columns;
-
-		histogram1Data = data;
-		histogram2Data = data;
-		scatterData = data;
-		chloropleth1Data = data;
-		chloropleth2Data = data;
-
-		// Histogram
-		let histogram1Container = d3.select('#histogram1').node().getBoundingClientRect();
-		let histogram2Container = d3.select('#histogram2').node().getBoundingClientRect();
-		let scatterplotContainer = d3.select('#scatterplot').node().getBoundingClientRect();
-		let chloropleth1Container = d3.select('#chloropleth1').node().getBoundingClientRect();
-		let chloropleth2Container = d3.select('#chloropleth2').node().getBoundingClientRect();
-
-		let defaultColumns = ['Deep_Pov_All', 'Vets18OPct'];
-
-		d3.select('#histogram1-title').text(`Histogram: ${descriptions[defaultColumns[0]]}`);
-		d3.select('#histogram2-title').text(`Histogram: ${descriptions[defaultColumns[1]]}`);
-		d3.select('#scatterplot-title').text(`Scatterplot: ${descriptions[defaultColumns[0]]} and ${descriptions[defaultColumns[1]]}`);
-		d3.select('#chloropleth1-title').text(`Choropleth Map 1: ${descriptions[defaultColumns[0]]}`);
-		d3.select('#chloropleth2-title').text(`Choropleth Map 2: ${descriptions[defaultColumns[1]]}`);
-
-		let histogram1 = new Histogram({
-			'parentElement': '#histogram1',
-			'containerHeight': histogram1Container.height,
-			'containerWidth': histogram1Container.width
-		}, histogram1Data, defaultColumns[0], descriptions);
-
-		let histogram2 = new Histogram({
-			'parentElement': '#histogram2',
-			'containerHeight': histogram2Container.height,
-			'containerWidth': histogram2Container.width
-		}, histogram2Data, defaultColumns[1], descriptions);
-
-		// Scatterplot
-		let scatterplot = new Scatterplot({
-			'parentElement': '#scatterplot',
-			'containerHeight': scatterplotContainer.height,
-			'containerWidth': scatterplotContainer.width,
-		}, scatterData, defaultColumns, descriptions);
-
-		let chloropleth1 = new Chloropleth({
-			'parentElement': '#chloropleth1',
-			'containerHeight': chloropleth1Container.height,
-			'containerWidth': chloropleth1Container.width
-		}, chloropleth1Data, defaultColumns[0], descriptions);
-		// Chloropleth Map
-
-		let chloropleth2 = new Chloropleth({
-			'parentElement': '#chloropleth2',
-			'containerHeight': chloropleth2Container.height,
-			'containerWidth': chloropleth2Container.width
-		}, chloropleth2Data, defaultColumns[1], descriptions);
-
-		// Create dropdowns for each graph
-		const columnsDropdown = columns.filter(column => column !== 'FIPS' && column !== 'State' && column !== 'County');
-
-		// Create 1st dropdown for all graphs
-		d3.select('#dataSelector1')
-			.selectAll('option')
-			.data(columnsDropdown)
-			.enter()
-			.append('option')
-			.text(d => d)
-			.attr('value', d => d);
-
-		d3.select('#dataSelector1').property('value', defaultColumns[0]);
-		d3.select('#dataSelector1-description').text(descriptions[defaultColumns[0]]);
-
-		// Create 2nd dropdown for all graphs
-		d3.select('#dataSelector2')
-			.selectAll('option')
-			.data(columnsDropdown)
-			.enter()
-			.append('option')
-			.text(d => d)
-			.attr('value', d => d);
-
-		d3.select('#dataSelector2').property('value', defaultColumns[1]);
-		d3.select('#dataSelector2-description').text(descriptions[defaultColumns[1]]);
-
-		// Event listeners for dropdowns to update graphs and descriptions
-		d3.select('#dataSelector1').on('change', function () {
-			let selectedColumn1 = d3.select(this).property('value');
-			let selectedColumn2 = d3.select('#dataSelector2').property('value');
-
-			histogram1.updateData(data, selectedColumn1, descriptions);
-			histogram2.updateData(data, selectedColumn2, descriptions);
-			scatterplot.updateData(data, selectedColumn1, selectedColumn2, descriptions);
-			chloropleth1.updateData(data, selectedColumn1, descriptions);
-			chloropleth2.updateData(data, selectedColumn2, descriptions);
-
-			d3.select('#dataSelector1-description').text(descriptions[selectedColumn1]);
-			d3.select('#dataSelector2-description').text(descriptions[selectedColumn2]);
-
-			d3.select('#histogram1-title').text(`Histogram: ${descriptions[selectedColumn1]}`);
-			d3.select('#histogram2-title').text(`Histogram: ${descriptions[selectedColumn2]}`);
-			d3.select('#scatterplot-title').text(`Scatterplot: ${descriptions[selectedColumn1]} and ${descriptions[selectedColumn2]}`);
-			d3.select('#chloropleth1-title').text(`Choropleth Map 1: ${descriptions[selectedColumn1]}`);
-			d3.select('#chloropleth2-title').text(`Choropleth Map 2: ${descriptions[selectedColumn2]}`);
-		});
-
-		d3.select('#dataSelector2').on('change', function () {
-			let selectedColumn1 = d3.select('#dataSelector1').property('value');
-			let selectedColumn2 = d3.select(this).property('value');
-
-			histogram1.updateData(data, selectedColumn1, descriptions);
-			histogram2.updateData(data, selectedColumn2, descriptions);
-			scatterplot.updateData(data, selectedColumn1, selectedColumn2);
-			chloropleth1.updateData(data, selectedColumn1);
-			chloropleth2.updateData(data, selectedColumn2);
-
-			d3.select('#dataSelector1-description').text(descriptions[selectedColumn1]);
-			d3.select('#dataSelector2-description').text(descriptions[selectedColumn2]);
-
-			d3.select('#histogram1-title').text(`Histogram: ${descriptions[selectedColumn1]}`);
-			d3.select('#histogram2-title').text(`Histogram: ${descriptions[selectedColumn2]}`);
-			d3.select('#scatterplot-title').text(`Scatterplot: ${descriptions[selectedColumn1]} and ${descriptions[selectedColumn2]}`);
-			d3.select('#chloropleth1-title').text(`Choropleth Map 1: ${descriptions[selectedColumn1]}`);
-			d3.select('#chloropleth2-title').text(`Choropleth Map 2: ${descriptions[selectedColumn2]}`);
-		});
-
+		IinesPerEpisodeData = d3.group(data, d => d.season, d => d.episode);
+		IinesPerEpisodeData = Array.from(IinesPerEpisodeData, ([season, episodes]) => ({
+			season: +season, // Convert season to a number for sorting
+			episodes: Array.from(episodes, ([episode, characters]) => ({
+				episode: +episode, // Convert episode to a number for sorting
+				characters: characters
+					.filter(d => DataName.includes(d.speaker)) // Filter characters by DataName
+					.map(d => ({
+						character: d.speaker,
+						lines: d.LinesInEpisode
+					}))
+			})).sort((a, b) => a.episode - b.episode) // Sort episodes
+		})).sort((a, b) => a.season - b.season); // Sort seasons
+		
+		new Overview({ 
+			parentElement: '#Overview',
+		  }, IinesPerEpisodeData, mainCharacters);
+		
 	})
 	.catch(error => {
 		console.log('Error loading the data');
 		console.log(error);
 	});
+

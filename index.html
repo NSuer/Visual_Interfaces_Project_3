@@ -30,30 +30,33 @@
 
     <!-- Overview section -->
     <section class="Overview-section">
-        <p>Overview section</p>
-        <p>For this section I'm expectring a heat map. It will have each row be a charachter. Each column will be an
-            episode. The color will be based off how much they speak
-            I belive this would cover all the required stuff. Maybe we'd also have descriptions of the characters and
-            episodes in a side bar or something.
-            With the mouse over being specific numbers. We could also use the github coding frequency cjhart as an
-            example.
-        </p>
-        <p>Data we need</p>
-        <ul>
-            <li>Character names</li>
-            <li>Episode names</li>
-            <li>How much each character speaks in each episode</li>
-        </ul>
+        <div class="overview-details">
+            <h3>Overview</h3>
+            <p><strong>The Office</strong> is a mockumentary sitcom that aired from 2005 to 2013 on NBC. It ran for 9
+                seasons with a total of 201 episodes. The show is set in the Scranton, Pennsylvania branch of the
+                fictional Dunder
+                Mifflin Paper Company and follows the daily lives of its employees.</p>
+        </div>
+        <p><strong>Genre:</strong> Comedy, Mockumentary</p>
+        <p><strong>Seasons:</strong> 9</p>
+        <p><strong>Episodes:</strong> 201</p>
+        </div>
+
 
     </section>
-
+    <div class="chart-container">
+        <div class="chart">
+            <div class="Overview" id="Overview" style=""></div>
+        </div>
+    </div>
     <!-- Main content area -->
     <main>
         <div class="chart-container">
             <div class="chart">
                 <p>Lets go with option 2: "ho speaks to each other or appears in scenes together." We are required to
                     use an encoding designed for network data (such as an arc diagram or a chord diagram).</p>
-                <p>lets just go with the classic Force-Directed Graph, we also need to split this into seasons or episodes dynamically</p>
+                <p>lets just go with the classic Force-Directed Graph, we also need to split this into seasons or
+                    episodes dynamically</p>
                 <p>Data we need</p>
                 <ul>
                     <li>Character names</li>
@@ -96,15 +99,27 @@
 
     <!-- Our JS code - INCLUDING the new files-->
     <script src="js/main.js"></script>
-    <script src="js/histogram.js"></script>
-    <script src="js/scatterplot.js"></script>
-    <script src="js/chloropleth.js"></script>
+    <script src="js/overview.js"></script>
 
 </body>
 
 </html>
 
 <style>
+    .Overview-section {
+        width: 90%;
+        height: 100%;
+        min-width: 100%;
+        text-align: center;
+    }
+
+    .Overview {
+        width: 90%;
+        height: 100%;
+        margin: auto;
+        overflow: auto;
+    }
+
     body {
         font-family: 'Arial', sans-serif;
         margin: 0;
@@ -187,5 +202,10 @@
 
     a:hover {
         text-decoration: underline;
+    }
+
+    .tooltip {
+        font-size: 12px;
+        z-index: 10;
     }
 </style>
