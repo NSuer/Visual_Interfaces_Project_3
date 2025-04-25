@@ -19,8 +19,6 @@ let DataName = [
 	'Toby',
 	'Stanley',
 	'Meredith',
-	'Holly',
-	'Nellie',
 	'Creed',
 	'Gabe',
 ];
@@ -43,10 +41,8 @@ let mainCharacters = [
 	{ name: 'Toby Flenderson', role: 'HR Representative', dataName: DataName[14], wikiLink: 'https://en.wikipedia.org/wiki/Toby_Flenderson' },
 	{ name: 'Stanley Hudson', role: 'Salesman', dataName: DataName[15], wikiLink: 'https://en.wikipedia.org/wiki/Stanley_Hudson' },
 	{ name: 'Meredith Palmer', role: 'Supplier Relations', dataName: DataName[16], wikiLink: 'https://en.wikipedia.org/wiki/Meredith_Palmer' },
-	{ name: 'Holly Flax', role: 'HR Representative', dataName: DataName[17], wikiLink: 'https://en.wikipedia.org/wiki/Holly_Flax' },
-	{ name: 'Nellie Bertram', role: 'Special Projects Manager', dataName: DataName[18], wikiLink: 'https://en.wikipedia.org/wiki/Nellie_Bertram' },
-	{ name: 'Creed Bratton', role: 'Quality Assurance', dataName: DataName[19], wikiLink: 'https://en.wikipedia.org/wiki/Creed_Bratton_(The_Office)' },
-	{ name: 'Gabe Lewis', role: 'Corporate Liaison', dataName: DataName[20], wikiLink: 'https://en.wikipedia.org/wiki/Gabe_Lewis' },
+	{ name: 'Creed Bratton', role: 'Quality Assurance', dataName: DataName[17], wikiLink: 'https://en.wikipedia.org/wiki/Creed_Bratton_(The_Office)' },
+	{ name: 'Gabe Lewis', role: 'Corporate Liaison', dataName: DataName[18], wikiLink: 'https://en.wikipedia.org/wiki/Gabe_Lewis' },
 ];
 
 d3.csv('data/IinesPerEpisode.csv')
