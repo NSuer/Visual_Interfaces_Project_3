@@ -75,12 +75,19 @@ class Overview {
             .attr('transform', 'rotate(-45)')
             .style('text-anchor', 'end');
     
-        const yAxis = svg.append('g')
+            const yAxis = svg.append('g')
             .attr('class', 'y-axis')
             .call(d3.axisLeft(yScale)
-                .tickFormat(d => this.getRealName(d))
+                .tickFormat(d => {
+                    const character = this.mainCharacters.find(c => c.dataName === d);
+                    if (character && character.wikiLink) {
+                        return `<a href="${character.wikiLink}" target="_blank" style="text-decoration: none; color: inherit;">${character.name}</a>`;
+                    }
+                    return this.getRealName(d);
+                })
                 .tickSize(0)
             );
+        
     
         // Tooltip for Y-axis labels
         const yAxisTooltip = d3.select(this.config.parentElement)
@@ -116,6 +123,15 @@ class Overview {
                 totalLines
             };
         });
+
+        
+        // Ensure the hyperlinks are rendered as HTML
+        yAxis.selectAll('.tick text')
+            .each(function() {
+                const textNode = d3.select(this);
+                const html = textNode.text();
+                textNode.html(html);
+            });
     
         // Add interactivity to Y-axis labels
         yAxis.selectAll('.tick')
