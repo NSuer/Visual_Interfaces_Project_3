@@ -3,6 +3,7 @@ class EncounterChord {
         this.config = {
             parentElement: _config.parentElement,
             characterNames: _config.characterNames,
+            colors: _config.colors
         };
         this.data = _data;
 
@@ -38,6 +39,8 @@ class EncounterChord {
         // Its opacity is set to 1: we can now see it. Plus it set the text and position of tooltip depending on the datapoint (d)
         vis.showTooltip = function (event, d) {
             console.log(d)
+
+            this.style.fill = "Ivory"
             vis.tooltip
                 .style("opacity", 1)
                 .html(vis.config.characterNames[d.target.index] + " shared " + d.target.value + " scene(s) with " + vis.config.characterNames[d.source.index] + ".")
@@ -46,11 +49,14 @@ class EncounterChord {
 
         // A function that change this tooltip when the leaves a point: just need to set opacity to 0 again
         vis.hideTooltip = function (event, d) {
+
+            this.style.fill = vis.config.colors[d.source.index]
             vis.tooltip
                 .transition()
                 .duration(150)
                 .style("opacity", 0)
         }
+
 
         vis.updateVis()
 
@@ -72,7 +78,7 @@ class EncounterChord {
             .sortSubgroups(d3.descending)
             (vis.data)
 
-        // add the groups on the inner part of the circle
+        // add the groups on the outer part of the circle
         vis.innerPaths = vis.svg
             .datum(res)
             .append("g")
@@ -80,7 +86,7 @@ class EncounterChord {
             .data(d => d.groups)
             .join("g")
             .append("path")
-            .style("fill", "grey")
+            .style("fill", function(d,i){ return vis.config.colors[i] })
             .style("stroke", "black")
             .attr("d", d3.arc()
                 .innerRadius(230)
@@ -99,7 +105,7 @@ class EncounterChord {
             .attr("d", d3.ribbon()
                 .radius(220)
             )
-            .style("fill", "#69b3a2")
+            .style("fill", function(d,i){ return vis.config.colors[d.source.index] })
             .style("stroke", "black")
             .on("mouseover", vis.showTooltip)
             .on("mouseleave", vis.hideTooltip)

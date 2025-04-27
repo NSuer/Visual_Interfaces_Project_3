@@ -144,6 +144,7 @@ d3.csv('data/EncounterTicker.csv')
 				}
 
 				// if that existed, copy the interactions from data into this character's row for this season's frame.
+				// account for missing entries, meaning the 2 characters had no interactions, keeping length of 8. 
 				let encounterMatrix = encounterFrame.encounters;
 				//console.log("Character: " + encounterNames[j] + " Season: " + (i+1) + " Encounters: ")
 				//console.log(encounterMatrix)
@@ -160,9 +161,12 @@ d3.csv('data/EncounterTicker.csv')
 
 		console.log("completed postprocessing for chord graph.")
 
+		const colorSet = ['LightCoral', 'LightSalmon', 'LemonChiffon', 'DarkSeaGreen', 'CadetBlue', 'PowderBlue', 'Thistle', 'Pink']
+
 		encounterChord = new EncounterChord({ 
 			parentElement: '#EncounterChord',
-			characterNames: encounterNames
+			characterNames: encounterNames,
+			colors: colorSet
 		}, seasonFrames[0]);
 
 	})
