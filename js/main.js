@@ -117,34 +117,46 @@ d3.csv('data/EncounterTicker.csv')
 
 		// only take top 8 speakers, sort them alphabetically
 
-		// push empty arr for season
-		seasonFrames.push([])
+		const NUM_SEASONS = 9
 
-		// iterate through dataset on current season. 
-		// for each character in encounterNames, push a row describing their interactions with the rest of the top 8.
-		for (let j = 0; j < encounterNames.length; j ++) {
+		// for each season
+		for (let i = 0; i < NUM_SEASONS; i ++){
 
-			// make empty row for this character
-			newCharacterFrame = new Array(encounterNames.length).fill(0)
+			// push empty arr for season. this will become a 2d array of character interactions over the season,
+			// referred to as a season frame. the collective of all these frames is the earlier-declared seasonFrames.
+			seasonFrames.push([])
 
-			// get the interaction list of the current character in the current season
-			const encounterFrame = dataOnSeasons.find(d => d.season == 1).speakers.find(d => d.speakerName == encounterNames[j])
+			// iterate through dataset on current season. 
+			// for each character in encounterNames, push a row describing their interactions with the rest of the top 8.
+			for (let j = 0; j < encounterNames.length; j ++) {
 
-			if (encounterFrame === undefined)
-				continue
+				// make empty row for this character
+				newCharacterFrame = new Array(encounterNames.length).fill(0)
 
-			// if that existed, copy the interactions from data into this character's row for this season's frame.
-			let encounterMatrix = encounterFrame.encounters;
-			console.log("Character: " + encounterNames[j] + " Season: " + "1" + " Encounters: ")
-			console.log(encounterMatrix)
+				// get the interaction list of the current character in the current season
+				const encounterFrame = dataOnSeasons.find(d => d.season == i + 1).speakers.find(d => d.speakerName == encounterNames[j])
 
-			for (let k = 0; k < encounterMatrix.length; k ++) {
-				newCharacterFrame[encounterNames.indexOf(encounterMatrix[k].encounterWith)] = encounterMatrix[k].sharedEpisodes; 
+				if (encounterFrame === undefined) {
+					seasonFrames[i].push(newCharacterFrame)
+					continue
+				}
+
+				// if that existed, copy the interactions from data into this character's row for this season's frame.
+				let encounterMatrix = encounterFrame.encounters;
+				//console.log("Character: " + encounterNames[j] + " Season: " + (i+1) + " Encounters: ")
+				//console.log(encounterMatrix)
+
+				for (let k = 0; k < encounterMatrix.length; k ++) {
+					newCharacterFrame[encounterNames.indexOf(encounterMatrix[k].encounterWith)] = encounterMatrix[k].sharedEpisodes; 
+				}
+
+				// push new character frame to this season's season frame
+				seasonFrames[i].push(newCharacterFrame)
 			}
 
-			// push new character frame to this season's season frame
-			seasonFrames[0].push(newCharacterFrame)
 		}
+
+		console.log("completed postprocessing for chord graph.")
 
 	})
 	.catch(error => {
