@@ -23,6 +23,8 @@ let DataName = [
 	'Gabe',
 ];
 
+let seasonFrames = []
+
 let mainCharacters = [
 	{ name: 'Michael Scott', role: 'Regional Manager', dataName: DataName[0], wikiLink: 'https://en.wikipedia.org/wiki/Michael_Scott_(The_Office)' },
 	{ name: 'Dwight Schrute', role: 'Assistant to the Regional Manager', dataName: DataName[1], wikiLink: 'https://en.wikipedia.org/wiki/Dwight_Schrute' },
@@ -71,3 +73,81 @@ d3.csv('data/IinesPerEpisode.csv')
 		console.log(error);
 	});
 
+d3.csv('data/EncounterTicker.csv')
+	.then(data => {
+
+		// ADJACENCY MATRIX OF ENCOUNTERS
+		// format: 3d matrix
+		// a season is defined by an 8x8 matrix: each row represents the encounters a character has
+		// with the other seven, themselves being 0, as we discount schizophrenia.
+		// seasons are collected in a list, creating the 3d matrix.
+
+		// going off TotalLines.csv to pull 8 most social characters:
+		let encounterNames = [
+			'Michael',
+			'Dwight',
+			'Jim',
+			'Pam',
+			'Andy',
+			'Kevin',
+			'Angela',
+			'Oscar'
+		];
+
+		//speaker -> EncounterWith
+
+		// group data on season then speaker
+		let dataOnSeasons = d3.group(data, d => d.season, d => d.speaker);
+
+		dataOnSeasons = Array.from(dataOnSeasons, ([season, speakerEntries]) => ({
+			season: +season, // cast season number str to an actual number
+			speakers: Array.from(speakerEntries, ([speakerName, encounterEntries]) => ({
+				speakerName,
+				encounters: encounterEntries
+					.map(d => ({
+						encounterWith: d["Encounter With"], // clean names, cast strs that should be numbers as such
+						season: +d.season,
+						sharedEpisodes: +d["Shared Episodes"],
+						speaker: d.speaker
+					}))
+					.filter(d => encounterNames.includes(d.encounterWith)) // filter listening characters on the top 8
+			}))
+			.filter(d => encounterNames.includes(d.speakerName)) // filter speaking characters on the top 8
+		}))
+
+		// only take top 8 speakers, sort them alphabetically
+
+		// push empty arr for season
+		seasonFrames.push([])
+
+		// iterate through dataset on current season. 
+		// for each character in encounterNames, push a row describing their interactions with the rest of the top 8.
+		for (let j = 0; j < encounterNames.length; j ++) {
+
+			// make empty row for this character
+			newCharacterFrame = new Array(encounterNames.length).fill(0)
+
+			// get the interaction list of the current character in the current season
+			const encounterFrame = dataOnSeasons.find(d => d.season == 1).speakers.find(d => d.speakerName == encounterNames[j])
+
+			if (encounterFrame === undefined)
+				continue
+
+			// if that existed, copy the interactions from data into this character's row for this season's frame.
+			let encounterMatrix = encounterFrame.encounters;
+			console.log("Character: " + encounterNames[j] + " Season: " + "1" + " Encounters: ")
+			console.log(encounterMatrix)
+
+			for (let k = 0; k < encounterMatrix.length; k ++) {
+				newCharacterFrame[encounterNames.indexOf(encounterMatrix[k].encounterWith)] = encounterMatrix[k].sharedEpisodes; 
+			}
+
+			// push new character frame to this season's season frame
+			seasonFrames[0].push(newCharacterFrame)
+		}
+
+	})
+	.catch(error => {
+		console.log('Error loading the encounter data');
+		console.log(error);
+	});
