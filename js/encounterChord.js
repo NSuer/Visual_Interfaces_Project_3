@@ -37,18 +37,18 @@ class EncounterChord {
         // A function that change this tooltip when the user hover a point.
         // Its opacity is set to 1: we can now see it. Plus it set the text and position of tooltip depending on the datapoint (d)
         vis.showTooltip = function (event, d) {
+            console.log(d)
             vis.tooltip
                 .style("opacity", 1)
-                .html("Source: " + vis.config.characterNames[d.source.index] + "<br>Target: " + vis.config.characterNames[d.target.index])
-                .style("left", (event.x) / 2 + 300 + "px")
-                .style("top", (event.y) / 2 + 500 + "px")
+                .html(vis.config.characterNames[d.target.index] + " shared " + d.target.value + " scene(s) with " + vis.config.characterNames[d.source.index] + ".")
+
         }
 
         // A function that change this tooltip when the leaves a point: just need to set opacity to 0 again
         vis.hideTooltip = function (event, d) {
             vis.tooltip
                 .transition()
-                //.duration(1000)
+                .duration(150)
                 .style("opacity", 0)
         }
 
@@ -73,7 +73,7 @@ class EncounterChord {
             (vis.data)
 
         // add the groups on the inner part of the circle
-        vis.svg
+        vis.innerPaths = vis.svg
             .datum(res)
             .append("g")
             .selectAll("g")
@@ -86,6 +86,8 @@ class EncounterChord {
                 .innerRadius(230)
                 .outerRadius(240)
             )
+
+        
 
         // Add the links between groups
         vis.svg
