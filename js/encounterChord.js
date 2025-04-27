@@ -19,7 +19,8 @@ class EncounterChord {
             .attr("width", 500)
             .attr("height", 500)
             .append("g")
-            .attr("transform", "translate(250,250)")
+            .attr("transform", "translate(350,250)")
+            .attr("id", "gamer")
 
         // Add a tooltip div. Here I define the general feature of the tooltip: stuff that do not depend on the data point.
         // Its opacity is set to 0: we don't see it by default.
@@ -60,6 +61,10 @@ class EncounterChord {
         let vis = this
 
         console.log("called updatevis in encounterChord")
+
+        // nuke all previous paths/arcs
+        const myNode = document.getElementById("gamer");
+        myNode.innerHTML = '';
 
         // give this matrix to d3.chord(): it will calculates all the info we need to draw arc and ribbon
         const res = d3.chord()

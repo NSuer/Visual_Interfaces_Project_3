@@ -173,6 +173,6 @@ d3.csv('data/EncounterTicker.csv')
 
 d3.select('#query-season').on('click', function() {
 	console.log("button! ");
-	encounterChord.data = seasonFrames[+document.getElementById("season-select").value]
+	encounterChord.data = seasonFrames[(+document.getElementById("season-select").value) - 1]
 	encounterChord.updateVis();
 	});
