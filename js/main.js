@@ -23,6 +23,17 @@ let DataName = [
 	'Gabe',
 ];
 
+encounterNames = [
+	'Michael',
+	'Dwight',
+	'Jim',
+	'Pam',
+	'Andy',
+	'Kevin',
+	'Angela',
+	'Oscar'
+];
+
 let seasonFrames = []
 
 let mainCharacters = [
@@ -83,16 +94,7 @@ d3.csv('data/EncounterTicker.csv')
 		// seasons are collected in a list, creating the 3d matrix.
 
 		// going off TotalLines.csv to pull 8 most social characters:
-		let encounterNames = [
-			'Michael',
-			'Dwight',
-			'Jim',
-			'Pam',
-			'Andy',
-			'Kevin',
-			'Angela',
-			'Oscar'
-		];
+
 
 		//speaker -> EncounterWith
 
@@ -158,8 +160,19 @@ d3.csv('data/EncounterTicker.csv')
 
 		console.log("completed postprocessing for chord graph.")
 
+		encounterChord = new EncounterChord({ 
+			parentElement: '#EncounterChord',
+			characterNames: encounterNames
+		}, seasonFrames[0]);
+
 	})
 	.catch(error => {
 		console.log('Error loading the encounter data');
 		console.log(error);
+	});
+
+d3.select('#query-season').on('click', function() {
+	console.log("button! ");
+	encounterChord.data = seasonFrames[+document.getElementById("season-select").value]
+	encounterChord.updateVis();
 	});

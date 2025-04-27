@@ -53,15 +53,23 @@
     <main>
         <div class="chart-container">
             <div class="chart">
-                <p>Lets go with option 2: "ho speaks to each other or appears in scenes together." We are required to
-                    use an encoding designed for network data (such as an arc diagram or a chord diagram).</p>
-                <p>lets just go with the classic Force-Directed Graph, we also need to split this into seasons or
-                    episodes dynamically</p>
-                <p>Data we need</p>
-                <ul>
-                    <li>Character names</li>
-                    <li>Who speaks to each other or appears in scenes together</li>
-                </ul>
+                <div class="EncounterChord" id="EncounterChord" style=""></div>
+                <label for="season-picker">Choose a Season:</label>
+
+                <select name="season-select" id="season-select">
+                  <option value="1">Season 1</option>
+                  <option value="2">Season 2</option>
+                  <option value="3">Season 3</option>
+                  <option value="4">Season 4</option>
+                  <option value="5">Season 5</option>
+                  <option value="6">Season 6</option>
+                  <option value="7">Season 7</option>
+                  <option value="8">Season 8</option>
+                  <option value="9">Season 9</option>
+                </select> 
+                <button name="query-season" id="query-season">
+                    Go!
+                </button>
             </div>
             <div class="chart">
                 <p> This is option 1</p>
@@ -100,6 +108,7 @@
     <!-- Our JS code - INCLUDING the new files-->
     <script src="js/main.js"></script>
     <script src="js/overview.js"></script>
+    <script src="js/encounterChord.js"></script>
 
 </body>
 
