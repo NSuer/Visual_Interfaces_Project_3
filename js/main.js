@@ -84,6 +84,34 @@ d3.csv('data/IinesPerEpisode.csv')
 		console.log(error);
 	});
 
+d3.csv('data/CleanedLines.csv')
+	.then(data => {
+		// group data on season then speaker
+		let dataOnSeasons = d3.group(data, d => d.season, d => d.speaker);
+		console.log(dataOnSeasons)
+
+		dataOnSeasons = Array.from(dataOnSeasons, ([season, speakerEntries]) => ({
+			season: +season, // cast season number str to an actual number
+			speakers: Array.from(speakerEntries, ([speakerName, lines]) => ({
+				speakerName,
+				lines: lines
+					.map(d => ({
+						id: +d.id, // clean names, cast strs that should be numbers as such
+						season: +d.season,
+						text: d["line-text"],
+						speaker: d.speaker
+					}))
+			}))
+		}))
+
+		console.log(dataOnSeasons)
+
+		//dataOnSeasons = Array.from(dataOnSeasons, ([season, speakerEntries]) => ({
+			//console.log()
+		//}))
+
+	});
+
 d3.csv('data/EncounterTicker.csv')
 	.then(data => {
 
