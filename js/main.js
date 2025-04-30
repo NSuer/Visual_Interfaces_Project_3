@@ -38,7 +38,7 @@ encounterNames = [
 ];
 
 let seasonFrames = []
-
+let cloudColor = "LightCoral"
 let speakerFrames = []
 
 let mainCharacters = [
@@ -111,7 +111,9 @@ d3.csv('data/CleanedLines.csv')
 
 		//console.log(dataOnSeasons)
 
-		boringWords = ["um", "and", "the", "if", "was", "are", "for", "is", "this", "a", "that", "my", "with", "i", "like", "then", "no", "at", "so", "it's", "all", "on"]
+		boringWords = ["um", "and", "the", "if", "was", "are", "for", "is", "this", "a", "you", "to", "just", "of", "we", "uh", "hey", "do", "i'm", "an", "your", "can", "get", "that's", "one", "well",
+			 "that", "my", "with", "i", "like", "then", "no", "at", "so", "it's", "all", "on", "oh", "not", "it", "but", "or", "him", "here", "what", "what's", "they", "you're", "ok", "right", "going"
+			, "let's", "ah", "us", "really", "because", "as", "very", "has", "were", "now",  "how", "who", "got", "when", "i'll", "she", "did", "take", "let", "have", "some", "will", "he's", "had", "gonna", "too", "something", "there", "yeah", "about", "am", "he", "me", "in", "up", "come", "would", "these", "be", "out", "don't", "okay", "her", "we're", "go"]
 
 		// for each speaker, log how many times they say each word in each season.
 		const NUM_SPEAKERS = 8
@@ -169,6 +171,9 @@ d3.csv('data/CleanedLines.csv')
 				if (newSeasonWordsFrame.length > 40) {
 					newSeasonWordsFrame = newSeasonWordsFrame.slice(0, 40)
 				}
+
+				// append count to word (for display on wordcloud)
+				newSeasonWordsFrame.map(d => d.word = d.word + " (" + d.count + ")")
 
 				speakerFrames[i].push(newSeasonWordsFrame)
 			}
@@ -294,6 +299,10 @@ d3.select('#query-cloud').on('click', function() {
 	let charIndex = encounterNames.indexOf(document.getElementById("cloud-character-select").value)
 	let seasonIndex = (+document.getElementById("season-select").value) - 1
 	wordCloud.data = speakerFrames[charIndex][seasonIndex]
+
+	let colorSet = ['LightCoral', 'LightSalmon', 'LemonChiffon', 'DarkSeaGreen', 'CadetBlue', 'PowderBlue', 'Thistle', 'Pink']
+	cloudColor = colorSet[charIndex]
+
 	wordCloud.updateVis();
 	});
 
