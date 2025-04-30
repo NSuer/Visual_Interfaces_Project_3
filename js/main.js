@@ -197,6 +197,8 @@ d3.csv('data/EncounterTicker.csv')
 			colors: colorSet
 		}, seasonFrames[0]);
 
+
+
 	})
 	.catch(error => {
 		console.log('Error loading the encounter data');
@@ -208,3 +210,63 @@ d3.select('#query-season').on('click', function() {
 	encounterChord.data = seasonFrames[(+document.getElementById("season-select").value) - 1]
 	encounterChord.updateVis();
 	});
+
+// Add WordFrequencyGraph functionality
+let wordFrequencyGraph;
+
+// Load the word frequency data
+d3.csv('data/scene_word_bank.csv')
+    .then(data => {
+        // Preprocess data
+        const processedData = data.map(d => ({
+            scene: d.Scene,
+            characters: d.Speaker.split(", "),
+            words: d.Words.split(" ")
+        }));
+
+        // Initialize the WordFrequencyGraph
+        wordFrequencyGraph = new WordFrequencyGraph({
+            parentElement: '#WordFrequencyGraph',
+            characters: ['Michael', 'Dwight', 'Pam', 'Kevin', 'Oscar', 'Jim', 'Angela']
+        }, processedData);
+
+        // Populate dropdowns for character selection
+        const dropdown1 = d3.select('#character1')
+            .on('change', function () {
+                const selected1 = this.value;
+                const selected2 = dropdown2.property('value');
+                wordFrequencyGraph.setSelectedCharacters([selected1, selected2]);
+            });
+
+        const dropdown2 = d3.select('#character2')
+            .on('change', function () {
+                const selected1 = dropdown1.property('value');
+                const selected2 = this.value;
+                wordFrequencyGraph.setSelectedCharacters([selected1, selected2]);
+            });
+
+        // Populate dropdown options
+        const characters = ['Michael', 'Dwight', 'Pam', 'Kevin', 'Oscar', 'Jim', 'Angela'];
+        dropdown1.selectAll('option')
+            .data(characters)
+            .enter()
+            .append('option')
+            .text(d => d)
+            .attr('value', d => d);
+
+        dropdown2.selectAll('option')
+            .data(characters)
+            .enter()
+            .append('option')
+            .text(d => d)
+            .attr('value', d => d);
+
+        // Set initial selection
+        dropdown1.property('value', 'Michael');
+        dropdown2.property('value', 'Dwight');
+        wordFrequencyGraph.setSelectedCharacters(['Michael', 'Dwight']);
+    })
+    .catch(error => {
+        console.log('Error loading the word frequency data');
+        console.log(error);
+    });
