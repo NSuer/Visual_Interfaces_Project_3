@@ -297,7 +297,7 @@ d3.select('#query-cloud').on('click', function() {
 	console.log(document.getElementById("cloud-character-select").value)
 
 	let charIndex = encounterNames.indexOf(document.getElementById("cloud-character-select").value)
-	let seasonIndex = (+document.getElementById("season-select").value) - 1
+	let seasonIndex = (+document.getElementById("cloud-season-select").value) - 1
 	wordCloud.data = speakerFrames[charIndex][seasonIndex]
 
 	let colorSet = ['LightCoral', 'LightSalmon', 'LemonChiffon', 'DarkSeaGreen', 'CadetBlue', 'PowderBlue', 'Thistle', 'Pink']
