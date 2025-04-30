@@ -15,19 +15,6 @@
         <h2>By: Nathan Suer, Ryan Williams, and Caleb Copley</h2>
     </header>
 
-    <!-- Directions section -->
-    <section class="directions">
-        <h3>Directions</h3>
-        <p>There are 3 main operations that can be performed on this page:</p>
-        <ol>
-            <li>Operation 1</li>
-            <li>Operation 2</li>
-            <li>Operation 3</li>
-        </ol>
-    </section>
-
-
-
     <!-- Overview section -->
     <section class="Overview-section">
         <div class="overview-details">
@@ -46,6 +33,7 @@
     </section>
     <div class="chart-container">
         <div class="chart">
+            <h3>Which Episodes do Characters Star in?</h3>
             <div class="Overview" id="Overview"></div>
         </div>
     </div>
@@ -55,6 +43,16 @@
 
             <div class="chart">
                 <h3>Which Characters Share Scenes?</h3>
+                <ul class="legend">
+                    <li class="legend-btn" category="michael"><span class="legend-symbol"></span> Michael</li>
+                    <li class="legend-btn" category="dwight"><span class="legend-symbol"></span> Dwight</li>
+                    <li class="legend-btn" category="jim"><span class="legend-symbol"></span> Jim</li>
+                    <li class="legend-btn" category="pam"><span class="legend-symbol"></span> Pam</li>
+                    <li class="legend-btn" category="andy"><span class="legend-symbol"></span> Andy</li>
+                    <li class="legend-btn" category="kevin"><span class="legend-symbol"></span> Kevin</li>
+                    <li class="legend-btn" category="angela"><span class="legend-symbol"></span> Angela</li>
+                    <li class="legend-btn" category="oscar"><span class="legend-symbol"></span> Oscar</li>
+                </ul>
                 <div class="EncounterChord" id="EncounterChord"></div>
                 <label for="season-picker">Choose a Season:</label>
 
@@ -90,14 +88,14 @@
                   <option value="9">Season 9</option>
                 </select> 
                 <select name="cloud-character-select" id="cloud-character-select">
-                    <option value="michael">Michael Scott</option>
-                    <option value="dwight">Dwight Schrute</option>
-                    <option value="pam">Pam Beesly</option>
-                    <option value="jim">Jim Halpert</option>
-                    <option value="andy">Andy Bernard</option>
-                    <option value="kevin">Kevin Malone</option>
-                    <option value="angela">Angela Martin</option>
-                    <option value="oscar">Oscar Martinez</option>
+                    <option value='Michael'>Michael Scott</option>
+                    <option value='Dwight'>Dwight Schrute</option>
+                    <option value='Jim'>Jim Halpert</option>
+                    <option value='Pam'>Pam Beesly</option>
+                    <option value='Andy'>Andy Bernard</option>
+                    <option value='Kevin'>Kevin Malone</option>
+                    <option value='Angela'>Angela Martin</option>
+                    <option value='Oscar'>Oscar Martinez</option>
                   </select> 
                 <button name="query-cloud" id="query-cloud">
                     Go!
@@ -315,5 +313,54 @@
         border-radius: 8px;
         padding: 10px;
         background-color: #f9f9f9;
+    }
+
+    .legend {
+        margin: 20px 0;
+        list-style: none;
+        padding: 0;
+    }
+
+    .legend-btn {
+        display: inline-block;
+        margin: 0 20px 0 0;
+    }
+
+    .legend-symbol {
+        width: 12px;
+        height: 12px;
+        margin-right: 3px;
+        display: inline-block;
+    }
+
+    .legend-btn[category="michael"] .legend-symbol {
+        background: #F08080;
+    }
+
+    .legend-btn[category="dwight"] .legend-symbol {
+        background: #FFA07A;
+    }
+
+    .legend-btn[category="jim"] .legend-symbol {
+        background: #FFFACD;
+    }
+    
+    .legend-btn[category="pam"] .legend-symbol {
+        background: #8FBC8F;
+    }
+
+    .legend-btn[category="andy"] .legend-symbol {
+        background: #5F9EA0;
+    }
+
+    .legend-btn[category="kevin"] .legend-symbol {
+        background: #B0E0E6;
+    }
+    .legend-btn[category="angela"] .legend-symbol {
+        background: #D8BFD8;
+    }
+    
+    .legend-btn[category="oscar"] .legend-symbol {
+        background: #FFC0CB;
     }
 </style>
