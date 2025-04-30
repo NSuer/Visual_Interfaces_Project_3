@@ -112,7 +112,7 @@ d3.csv('data/CleanedLines.csv')
 		//console.log(dataOnSeasons)
 
 		boringWords = ["um", "and", "the", "if", "was", "are", "for", "is", "this", "a", "you", "to", "just", "of", "we", "uh", "hey", "do", "i'm", "an", "your", "can", "get", "that's", "one", "well",
-			 "that", "my", "with", "i", "like", "then", "no", "at", "so", "it's", "all", "on", "oh", "not", "it", "but", "or", "him", "here", "what", "what's", "they", "you're", "ok", "right", "going"
+			 "that", "my", "with", "i", "like", "then", "no", "at", "so", "it's", "all", "on", "oh", "not", "it", "but", "or", "him", "here", "what", "what's", "they", "you're", "ok", "right", "going", "didn't", "been", "his", "doing", "our", "off", "them", "over", "thing", "down", "by", "could", "should", "can't", "i've", "more", "any", "see", "alright", "back", "know", "from", "never", "only",
 			, "let's", "ah", "us", "really", "because", "as", "very", "has", "were", "now",  "how", "who", "got", "when", "i'll", "she", "did", "take", "let", "have", "some", "will", "he's", "had", "gonna", "too", "something", "there", "yeah", "about", "am", "he", "me", "in", "up", "come", "would", "these", "be", "out", "don't", "okay", "her", "we're", "go"]
 
 		// for each speaker, log how many times they say each word in each season.
