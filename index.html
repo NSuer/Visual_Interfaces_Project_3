@@ -11,7 +11,7 @@
 <body>
     <!-- Title area -->
     <header>
-        <h1>TV Time - Friends</h1>
+        <h1>TV Time - The Office</h1>
         <h2>By: Nathan Suer, Ryan Williams, and Caleb Copley</h2>
     </header>
 
@@ -46,7 +46,7 @@
     </section>
     <div class="chart-container">
         <div class="chart">
-            <div class="Overview" id="Overview" style=""></div>
+            <div class="Overview" id="Overview"></div>
         </div>
     </div>
     <!-- Main content area -->
@@ -55,7 +55,7 @@
 
             <div class="chart">
                 <h3>Which Characters Share Scenes?</h3>
-                <div class="EncounterChord" id="EncounterChord" style=""></div>
+                <div class="EncounterChord" id="EncounterChord"></div>
                 <label for="season-picker">Choose a Season:</label>
 
                 <select name="season-select" id="season-select">
@@ -74,16 +74,34 @@
                 </button>
             </div>
             <div class="chart">
-                <p> This is option 1</p>
-                <p> I recommend us not trying to get fancy with this. Just a basic .cloud() d3 wordcloud.</p>
-                <p> select on: season, speaker</p>
-                <p> tooltip: # of times word being moused over is said</p>
-                <p>Data we need</p>
-                <ul>
-                    <li>Character names</li>
-                    <li>Common words each character speaks</li>
-                    <li>Common phrases each character speaks</li>
-                </ul>
+                <h3>What do Characters Say?</h3>
+                <div class="wordCloud" id="wordCloud"></div>
+                <label for="season-picker">Select a Scope:</label>
+
+                <select name="cloud-season-select" id="cloud-season-select">
+                  <option value="1">Season 1</option>
+                  <option value="2">Season 2</option>
+                  <option value="3">Season 3</option>
+                  <option value="4">Season 4</option>
+                  <option value="5">Season 5</option>
+                  <option value="6">Season 6</option>
+                  <option value="7">Season 7</option>
+                  <option value="8">Season 8</option>
+                  <option value="9">Season 9</option>
+                </select> 
+                <select name="cloud-character-select" id="cloud-character-select">
+                    <option value="michael">Michael Scott</option>
+                    <option value="dwight">Dwight Schrute</option>
+                    <option value="pam">Pam Beesly</option>
+                    <option value="jim">Jim Halpert</option>
+                    <option value="andy">Andy Bernard</option>
+                    <option value="kevin">Kevin Malone</option>
+                    <option value="angela">Angela Martin</option>
+                    <option value="oscar">Oscar Martinez</option>
+                  </select> 
+                <button name="query-cloud" id="query-cloud">
+                    Go!
+                </button>
 
             </div>
 
@@ -114,12 +132,14 @@
 
     <!-- D3 bundle -->
     <script src="js/d3.v6.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/gh/holtzy/D3-graph-gallery@master/LIB/d3.layout.cloud.js"></script>
 
     <!-- Our JS code - INCLUDING the new files-->
     <script src="js/main.js"></script>
     <script src="js/overview.js"></script>
     <script src="js/encounterChord.js"></script>
     <script src='js/wordFrequencyGraph.js'></script>"
+    <script src="js/wordCloud.js"></script>
 
 </body>
 
