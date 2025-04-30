@@ -107,17 +107,16 @@
 
         </div>
         <div class="chart-container">
-            <div class="chart">
-                <h3>Interaction Language Index</h3>
+            <div class="chart" height="800px">
+                <h3>Interaction Graph</h3>
                 <p>What do characters say to their scene partners on a smaller scale?</p>
-                <div>
-                    <label for="character1">Select Character 1:</label>
-                    <select id="character1"></select>
-
-                    <label for="character2">Select Character 2:</label>
-                    <select id="character2"></select>
+                <div class="interaction-graph-container">
+                    <div id="interactionGraph"></div>
+                    <div class="bar-charts">
+                        <div id="barChartLeft" class="smallChart"></div>
+                        <div id="barChartRight" class="smallChart"></div>
+                    </div>
                 </div>
-                <div id="WordFrequencyGraph" style="margin-top: 20px;"></div>
             </div>
         </div>
     </main>
@@ -138,7 +137,7 @@
     <script src="js/main.js"></script>
     <script src="js/overview.js"></script>
     <script src="js/encounterChord.js"></script>
-    <script src='js/wordFrequencyGraph.js'></script>"
+    <script src='js/interactionGraph.js'></script>"
     <script src="js/wordCloud.js"></script>
 
 </body>
@@ -160,6 +159,42 @@
         overflow: auto;
     }
 
+    .tooltip {
+        font-size: 12px;
+        z-index: 10;
+        pointer-events: none;
+    }
+
+    .smallChart {
+        width: 100%;
+        height: 200px;
+        margin: 10px 0;
+    }
+
+    .top-words-section {
+        font-family: Arial, sans-serif;
+        font-size: 14px;
+        color: #333;
+    }
+
+    .top-words-section h4 {
+        margin-bottom: 10px;
+    }
+
+    .top-words-section ul {
+        list-style-type: none;
+        padding: 0;
+    }
+
+    .top-words-section li {
+        margin-bottom: 5px;
+    }
+    
+    #interactionGraph {
+        width: 100%;
+        height: 800px; /* Match the height in the JavaScript */
+    }
+    
     body {
         font-family: 'Arial', sans-serif;
         margin: 0;
@@ -251,5 +286,34 @@
     .tooltip {
         font-size: 12px;
         z-index: 10;
+    }
+
+    .interaction-graph-container {
+        display: flex;
+        flex-direction: row;
+        justify-content: space-between;
+        align-items: flex-start;
+    }
+
+    #interactionGraph {
+        flex: 2;
+        height: 600px;
+    }
+
+    .bar-charts {
+        flex: 1;
+        display: flex;
+        flex-direction: column;
+        justify-content: space-between;
+        height: 600px;
+    }
+
+    #barChartLeft, #barChartRight {
+        flex: 1;
+        margin: 10px;
+        border: 1px solid #ccc;
+        border-radius: 8px;
+        padding: 10px;
+        background-color: #f9f9f9;
     }
 </style>
