@@ -4,8 +4,10 @@ class InteractionGraph {
             parentElement: _config.parentElement,
             barChartLeftElement: _config.barChartLeftElement, // Left bar chart container
             barChartRightElement: _config.barChartRightElement, // Right bar chart container
-            width: 1200, // Increased width
-            height: 800, // Increased height
+            width: 1200, // Graph width
+            height: 800, // Graph height
+            barChartWidth: 500, // Increased bar chart width
+            barChartHeight: 250, // Increased bar chart height
             margin: { top: 40, right: 40, bottom: 40, left: 40 }
         };
         this.data = _data;
@@ -29,18 +31,18 @@ class InteractionGraph {
         // Set up left bar chart container
         vis.barChartLeft = d3.select(vis.config.barChartLeftElement)
             .append("svg")
-            .attr("width", 300)
-            .attr("height", 300)
+            .attr("width", vis.config.barChartWidth)
+            .attr("height", vis.config.barChartHeight)
             .append("g")
-            .attr("transform", "translate(50, 20)");
+            .attr("transform", "translate(60, 40)");
 
         // Set up right bar chart container
         vis.barChartRight = d3.select(vis.config.barChartRightElement)
             .append("svg")
-            .attr("width", 300)
-            .attr("height", 300)
+            .attr("width", vis.config.barChartWidth)
+            .attr("height", vis.config.barChartHeight)
             .append("g")
-            .attr("transform", "translate(50, 20)");
+            .attr("transform", "translate(60, 40)");
 
         vis.updateVis();
     }
@@ -146,7 +148,7 @@ class InteractionGraph {
         const targetId = typeof link.target === 'object' ? link.target.id : link.target;
     
         // Left bar chart will show the original link (source → target)
-        const leftWords = link.words.split(", ").slice(0, 5).map(word => {
+        const leftWords = link.words.split(", ").slice(0, 20).map(word => {
             const [wordText, count] = word.split(" ");
             return { 
                 word: wordText.replace(/[()]/g, ""), 
@@ -164,7 +166,7 @@ class InteractionGraph {
     
         // Right bar chart will show the reverse link if it exists
         if (reverseLink) {
-            const rightWords = reverseLink.words.split(", ").slice(0, 5).map(word => {
+            const rightWords = reverseLink.words.split(", ").slice(0, 20).map(word => {
                 const [wordText, count] = word.split(" ");
                 return { 
                     word: wordText.replace(/[()]/g, ""), 
@@ -184,27 +186,29 @@ class InteractionGraph {
     }
 
     updateBarChart(container, data, title) {
+        const vis = this;
+
         // Set up scales with fallback for empty data
         const x = d3.scaleBand()
             .domain(data.length ? data.map(d => d.word) : [])
-            .range([0, 200])
+            .range([0, vis.config.barChartWidth - 100]) // Adjusted for larger width
             .padding(0.1);
-    
+
         const y = d3.scaleLinear()
             .domain([0, data.length ? d3.max(data, d => d.count) : 1])
-            .range([200, 0]);
-    
+            .range([vis.config.barChartHeight - 100, 0]); // Adjusted for larger height
+
         // Add title (always shown)
         container.selectAll(".title")
             .data([title])
             .join("text")
             .attr("class", "title")
-            .attr("x", 100)
+            .attr("x", (vis.config.barChartWidth - 100) / 2)
             .attr("y", -10)
             .attr("text-anchor", "middle")
-            .style("font-size", "14px")
+            .style("font-size", "16px") // Increased font size
             .text(d => d);
-    
+
         // Add bars (empty if no data)
         container.selectAll(".bar")
             .data(data)
@@ -213,22 +217,28 @@ class InteractionGraph {
             .attr("x", d => x(d.word))
             .attr("y", d => y(d.count))
             .attr("width", x.bandwidth())
-            .attr("height", d => 200 - y(d.count))
+            .attr("height", d => vis.config.barChartHeight - 100 - y(d.count))
             .style("fill", "#69b3a2");
-    
+
         // Add axes (always shown)
         container.selectAll(".x-axis")
             .data([0])
             .join("g")
             .attr("class", "x-axis")
-            .attr("transform", "translate(0,200)")
-            .call(d3.axisBottom(x));
-    
+            .attr("transform", `translate(0,${vis.config.barChartHeight - 100})`)
+            .call(d3.axisBottom(x))
+            .selectAll("text")
+            .style("font-size", "12px") // Adjusted font size for axis labels
+            .attr("transform", "rotate(-45)")
+            .style("text-anchor", "end");
+
         container.selectAll(".y-axis")
             .data([0])
             .join("g")
             .attr("class", "y-axis")
-            .call(d3.axisLeft(y));
+            .call(d3.axisLeft(y).ticks(5))
+            .selectAll("text")
+            .style("font-size", "12px"); // Adjusted font size for axis labels
     }
 
     clearBarCharts() {
