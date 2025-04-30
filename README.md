@@ -9,7 +9,7 @@ Code/Github: https://github.com/NSuer/Visual_Interfaces_Project_3
 The motivation for this application is to provide fans of *The Office* with an interactive dashboard to explore and analyze data from the show. By visualizing dialogue, character interactions, and other patterns, users can gain insights into the series. This tool allows users to engage with the show in a new way, uncovering trends and details that may not be immediately apparent from simply watching the episodes.
 
 ## Data
-TODO Caleb
+Our data was semi-messy, all things considered. We obtained it from the reddit link below and had to do a lot of preprocessing. One major issue that I ran into was mistranslation and puncuation deletion issues. I spent around 10 hours manually identifying where punctuation was placed with a unicode diamond. Other than that, the data required simple reprocesses for certain functions.
 https://www.reddit.com/r/datasets/comments/b30288/every_line_from_every_episode_of_the_office/
 
 ## Visualization Components (Including Design Justification and Sketches)
@@ -54,14 +54,15 @@ TODO Ryan
 TODO Ryan
 
 ### Interaction Language Index
-TODO Caleb
+For our "Choose-Your-Own-Adventure" prompt, we made something called the interaction language index. The index measures what words a character says when another character is in the room. For example, what are the most common words in dwight's vocab but only in situations where Michael is in the room. It is a d3 simulation that uses data processed by python files and auto-compiles each characters scene lines into 1 data point. As a result, the function reads all scenes and creates a dictionary for "what has _ said when _ is around?" The top 20 words from each were grabbed in particuler. We also limited it to 7 characters for readability.
 
 ## What the application enables you to discover
 By analyzing the heatmap, users can identify which characters dominate specific episodes or seasons. For example, Michael Scott has the highest dialogue intensity in earlier seasons, while Dwight Scrute, Jim Halpert, and Pam Beesly take on more prominent roles in later seasons.
 
 ![Heatmap](Heatmap.png "Heatmap")
 
-TODO Ryan TODO Caleb, Maybe add a few more examples of what you can discover from other visualizations.
+TODO Ryan Maybe add a few more examples of what you can discover from other visualizations.
+By analyzing the interaction graph, someone can see the diction a character uses when another is around. Word choice lends well to tone so the user can idenfity a lot of commonalities.
 
 ## Process
 
@@ -92,3 +93,6 @@ TODO Ryan TODO Caleb
 - Nate: 
     - uses github copilot to help with code completion and debugging. More of an auto-complete tool than a code generator.
     - used github copilot to help with writing the README and documentation. I would give the instructions from the assignment and it would help me write the text. I would then edit it to make it more personal and fit my style. For example: "write a section on the heatmap. Explain each view of the data, the GUI, etc.  Explain how you can interact with your application, and how the views update in response to these interactions. The heatmap is a heatmap with the lines per episode for every episode in the series. The Y axis is charachters and the X axis is epiisodes. Color is based on how many lines they spoke. Red is the most lines spoken in an episode , it then goes on a gradient to purple/black whick is little to no lines. There is tooltips too. If you hover over the cells in the heatmap it will give you the charachter, season and episode, and amount of lines in that episode. If you hover over a charachter on the y axis you get the charachters name, the amount of episodes they are in, and thew amouunt of lines they have in the entire series. You can also click on a charachter on the y axis and it will link to the wiki article for the charachter "
+
+- Caleb:
+    - uses github copilot for completion and debugging. Used it to generate easier examples of d3 simulations. I also used it to make minor changes right before the presentation (clarity edits). Also used github copilot to help smooth out the connections between code sections to make up for my lack experience with certain js/html conventions.
