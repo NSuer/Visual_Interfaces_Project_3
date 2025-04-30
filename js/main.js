@@ -23,6 +23,9 @@ let DataName = [
 	'Gabe',
 ];
 
+cloudLayout = null;
+cloudSVG = null;
+
 encounterNames = [
 	'Michael',
 	'Dwight',
@@ -90,7 +93,7 @@ d3.csv('data/CleanedLines.csv')
 	.then(data => {
 		// group data on speaker then season
 		let dataOnSeasons = d3.group(data, d => d.speaker.toLowerCase().trim(), d => d.season);
-		console.log(dataOnSeasons)
+		//console.log(dataOnSeasons)
 
 		dataOnSeasons = Array.from(dataOnSeasons, ([speakerName, seasons]) => ({
 			speakerName: speakerName, // cast season number str to an actual number
@@ -106,13 +109,15 @@ d3.csv('data/CleanedLines.csv')
 			}))
 		}))
 
-		console.log(dataOnSeasons)
+		//console.log(dataOnSeasons)
 
 		boringWords = ["um", "and", "the", "if", "was", "are", "for", "is", "this", "a", "that", "my", "with", "i", "like", "then", "no", "at", "so", "it's", "all", "on"]
 
 		// for each speaker, log how many times they say each word in each season.
 		const NUM_SPEAKERS = 8
 		const NUM_SEASONS = 9
+		const MAX_FONT_SIZE = 30
+		const MIN_FONT_SIZE = 5
 
 		for (let i = 0; i < NUM_SPEAKERS; i ++){
 
@@ -146,7 +151,7 @@ d3.csv('data/CleanedLines.csv')
 						let currWordIndex = newSeasonWordsFrame.findIndex(d => d.word == currLine[l])
 						if (currWordIndex == -1){
 							// word is new to this character this season, record it in a new object in newSeasonWords Frame.
-							newSeasonWordsFrame.push({"word": currLine[l], "scaleFactor": 1})
+							newSeasonWordsFrame.push({"word": currLine[l], "count": 1})
 
 						} else{
 							// character already spoke this word this season, record instance in existing object
@@ -158,14 +163,28 @@ d3.csv('data/CleanedLines.csv')
 					//console.log(currLine)
 				}
 
+				// with all words from this character this season collected, only push the top 40 most spoken words.
+				newSeasonWordsFrame = newSeasonWordsFrame.sort((a, b) => b.count - a.count)
+
+				if (newSeasonWordsFrame.length > 40) {
+					newSeasonWordsFrame = newSeasonWordsFrame.slice(0, 40)
+				}
+
 				speakerFrames[i].push(newSeasonWordsFrame)
 			}
 		}
 
 		console.log(speakerFrames)
 
-		// now with count of all words for each characters by season, normalize "scaleFactor" to size scale
-		
+		// now with count of all words for each characters by season, normalize "count" to size scale
+
+		const colorSet = ['LightCoral', 'LightSalmon', 'LemonChiffon', 'DarkSeaGreen', 'CadetBlue', 'PowderBlue', 'Thistle', 'Pink']
+
+		// make graph
+		wordCloud = new WordCloud({ 
+			parentElement: '#wordCloud',
+			colors: colorSet
+		}, speakerFrames[0][0]);
 
 	});
 
