@@ -13,10 +13,6 @@ class WordCloud {
 
         let vis = this
 
-        // create the svg area
-        // List of words
-        var myWords = [{word: "Running", size: "10"}, {word: "Surfing", size: "20"}, {word: "Climbing", size: "50"}, {word: "Kiting", size: "30"}, {word: "Sailing", size: "20"}, {word: "Snowboarding", size: "60"} ]
-        
         // set the dimensions and margins of the graph
         vis.margin = {top: 10, right: 10, bottom: 10, left: 10}
         vis.width = 400 - vis.margin.left - vis.margin.right
@@ -29,7 +25,8 @@ class WordCloud {
             .attr("height", vis.height + vis.margin.top + vis.margin.bottom)
             .attr("id", "superAwesomeSVG")
             .append("g")
-            .attr("transform", "translate(" + vis.margin.left + "," + vis.margin.top + ")");
+            .attr("transform", "translate(" + vis.margin.left + "," + vis.margin.top + ")")
+            .attr("id", "hi")
 
         vis.updateVis()
 
@@ -38,9 +35,11 @@ class WordCloud {
     updateVis() {
 
         let vis = this
+        const myNode = document.getElementById("hi");
+        myNode.innerHTML = '';
 
         console.log("data into UpdateVis")
-        //vis.data.map(function(d) { console.log(d); return {text: d.word, size:d.size}; })
+        vis.data.map(function(d) { console.log(d); return {text: d.word, size:d.size}; })
 
         // Constructs a new cloud layout instance. It run an algorithm to find the position of words that suits your requirements
         // Wordcloud features that are different from one word to the other must be here
@@ -68,8 +67,6 @@ class WordCloud {
         console.log(svg)
         //myNode.innerHTML = '';
         console.log(cloudLayout.size())
-
-        cloudSVG.append("g")
 
         cloudSVG
             .append("g")
